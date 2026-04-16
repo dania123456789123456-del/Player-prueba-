@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Player Drive Test</title>
+
+<style>
+body{
+  margin:0;
+  background:#000;
+  font-family:sans-serif;
+}
+
+#controls{
+  padding:10px;
+  background:#111;
+}
+
+input{
+  width:70%;
+  padding:8px;
+}
+
+button{
+  padding:8px 12px;
+}
+
+#playerContainer{
+  position:relative;
+  width:100%;
+  height:80vh;
+  background:#000;
+}
+
+#player iframe, #player video{
+  width:100%;
+  height:100%;
+}
+
+#subtitles{
+  position:absolute;
+  bottom:10%;
+  width:100%;
+  text-align:center;
+  color:#fff;
+  font-size:20px;
+  text-shadow:0 0 5px #000;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="controls">
+  <input id="url" placeholder="Pega link de Google Drive preview aquí">
+  <button onclick="cargar()">Reproducir</button>
+</div>
+
+<div id="playerContainer">
+  <div id="player"></div>
+  <div id="subtitles"></div>
+</div>
+
+<script>
+// detectar si es drive
+function esDrive(url){
+  return url.includes("drive.google.com");
+}
+
+// cargar video
+function cargar(){
+  const url = document.getElementById("url").value;
+  const player = document.getElementById("player");
+
+  if(esDrive(url)){
+    player.innerHTML = `
+      <iframe 
+        src="${url}" 
+        frameborder="0"
+        allow="autoplay"
+        allowfullscreen>
+      </iframe>
+    `;
+  } else {
+    player.innerHTML = `
+      <video controls autoplay>
+        <source src="${url}">
+      </video>
+    `;
+  }
+
+  iniciarSubtitulos();
+}
+
+// subtítulos de prueba
+const subs = [
+  {start:1, end:4, text:"Hola 👋"},
+  {start:5, end:8, text:"Esto es una prueba"},
+  {start:9, end:12, text:"Subtítulos flotantes 😎"}
+];
+
+function iniciarSubtitulos(){
+  const box = document.getElementById("subtitles");
+  let tiempo = 0;
+
+  setInterval(()=>{
+    tiempo++;
+
+    const actual = subs.find(s => tiempo >= s.start && tiempo <= s.end);
+    box.innerText = actual ? actual.text : "";
+
+  },1000);
+}
+</script>
+
+</body>
+</html>
