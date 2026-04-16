@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Player Drive Test</title>
+<title>Player Drive Full</title>
 
 <style>
 body{
@@ -17,12 +17,13 @@ body{
 }
 
 input{
-  width:70%;
+  width:60%;
   padding:8px;
 }
 
 button{
   padding:8px 12px;
+  margin-left:5px;
 }
 
 #playerContainer{
@@ -32,9 +33,12 @@ button{
   background:#000;
 }
 
-#player iframe, #player video{
+/* 🔥 AQUÍ ESTÁ LO IMPORTANTE (ESTIRADO TOTAL) */
+#player iframe, 
+#player video{
   width:100%;
   height:100%;
+  object-fit: fill; /* ESTIRA TODO */
 }
 
 #subtitles{
@@ -55,6 +59,7 @@ button{
 <div id="controls">
   <input id="url" placeholder="Pega link de Google Drive preview aquí">
   <button onclick="cargar()">Reproducir</button>
+  <button onclick="fullscreen()">Pantalla completa</button>
 </div>
 
 <div id="playerContainer">
@@ -93,11 +98,19 @@ function cargar(){
   iniciarSubtitulos();
 }
 
+// pantalla completa
+function fullscreen(){
+  const cont = document.getElementById("playerContainer");
+  if(cont.requestFullscreen){
+    cont.requestFullscreen();
+  }
+}
+
 // subtítulos de prueba
 const subs = [
   {start:1, end:4, text:"Hola 👋"},
-  {start:5, end:8, text:"Esto es una prueba"},
-  {start:9, end:12, text:"Subtítulos flotantes 😎"}
+  {start:5, end:8, text:"Modo pantalla completa activado"},
+  {start:9, end:12, text:"Video estirado 😎"}
 ];
 
 function iniciarSubtitulos(){
